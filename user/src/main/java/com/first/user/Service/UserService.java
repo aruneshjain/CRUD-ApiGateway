@@ -52,7 +52,7 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-
+// Delete API to remove record from Database
     public ResponseEntity<String> deleteById(long id) {
         try {
             String MSG = "User Removed with ID :" + id;
@@ -111,9 +111,6 @@ public class UserService {
                 "http://localhost:8030/product/username/" + id,
                 ArrayList.class
         );
-//        List<ProductDTO> products =  product != null
-//                ? Collections.singletonList(product)
-//                : Collections.emptyList();
 
         UserEntity user = null;
         if (userOptional.isPresent()) {
