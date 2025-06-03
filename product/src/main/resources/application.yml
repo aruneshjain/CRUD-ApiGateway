@@ -35,3 +35,10 @@ resilience4j:
         limit-refresh-period: 10s
         limit-for-period: 2
         timeout-duration: 30s
+
+feign:
+  client:
+    config:
+      PRODUCT-SERVICE:
+        connectTimeout: 5000
+        readTimeout: 5000
