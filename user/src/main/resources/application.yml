@@ -41,3 +41,10 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
+
+feign:
+  client:
+    config:
+      USER-SERVICE:
+        connectTimeout: 5000
+        readTimeout: 5000

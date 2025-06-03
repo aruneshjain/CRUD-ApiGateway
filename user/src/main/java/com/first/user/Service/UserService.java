@@ -2,8 +2,10 @@ package com.first.user.Service;
 
 import com.first.user.DTO.ProductDTO;
 import com.first.user.Entity.UserEntity;
+import com.first.user.External.Service.ProductService;
 import com.first.user.Repository.UserRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.hibernate.engine.internal.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private ProductService product;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     public ResponseEntity<String> addUser(UserEntity userEntity) {
@@ -36,6 +41,11 @@ public class UserService {
 
     public ResponseEntity<List<UserEntity>> getAll() {
         try {
+            List<UserEntity> users = userRepository.findAll();
+            for (int i =0; i < users.size(); i++) {
+                List<ProductDTO> products = product.getProduct(users.get(i).getID());
+                users.get(i).setProducts(products);
+            }
             return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +129,17 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public ResponseEntity<String> addProduct(long id, ProductDTO products) {
+        try {
+                product.addProduct(products);
+//            userRepository.save(userEntity);
+            return new ResponseEntity<>("Success", HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.first.user.Controller;
 
+import com.first.user.DTO.ProductDTO;
 import com.first.user.Entity.UserEntity;
 import com.first.user.Service.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> add(@PathVariable long id){
+    public ResponseEntity<String> delete(@PathVariable long id){
         return userService.deleteById(id);
     }
 
@@ -56,5 +57,8 @@ public class UserController {
         return userService.getUserWithProduct(id);
     }
 
-
+    @PostMapping("addProduct/{id}")
+    public ResponseEntity<String> addProduct(@PathVariable long id,@RequestBody ProductDTO product){
+        return userService.addProduct(id,product);
+    }
 }
